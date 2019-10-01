@@ -1,0 +1,66 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{calc}
+
+% \usepackage{showframe}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+\setlength{\marginparwidth}{0em}
+\setlength{\textwidth}{\paperwidth}
+\addtolength{\textwidth}{-2in}
+\setlength{\textheight}{\paperheight}
+\addtolength{\textheight}{-2in}
+\setlength{\topmargin}{0em}
+\setlength{\headheight}{0em}
+\setlength{\headsep}{0em}
+\setlength{\oddsidemargin}{0em}
+\setlength{\marginparsep}{0em}
+
+
+\newlength{\colauthlen}
+\setlength{\colauthlen}{4cm}
+\newlength{\colcontriblen}
+\setlength{\colcontriblen}{5.5cm}
+\newlength{\minorskip}
+\setlength{\minorskip}{0.5cm}
+\newlength{\majorskip}
+% \setlength{\majorskip}{0cm}
+\setlength{\majorskip}{2\parskip}
+
+% marginparwidth
+
+\begin{document}
+
+% \maketitle
+
+\section*{Authors Contributions Statement}
+\thispagestyle{empty}
+
+This document lists the authors contributions to the research item described below. 
+The contributions are described using \href{https://www.casrai.org/credit.html}{CRediT}, a standardized taxonomy developed and supported by \href{https://www.casrai.org/}{CASRAI}.
+
+CRediT (Contributor Roles Taxonomy) is high-level taxonomy, including 14 roles, that can be used to represent the roles typically played by contributors to scientific scholarly output. The roles describe each contributor’s specific contribution to the scholarly output.
+
+\vspace{\majorskip}
+
+\input{../files/meta.txt}
+
+\vspace{\majorskip}
+
+\input{../files/contrib.txt}
+
+\vspace{\majorskip}
+
+\textit{All authors agree with the above declaration of contributions.} \\[0.3\minorskip]
+\today
+
+% \begin{longtable}[l]{@{}p{\colauthlen}@{\qquad}l@{}}
+%      \today & \textit{All authors agree with the above declaration of contributions.}
+% \end{longtable}
+
+
+\end{document}
