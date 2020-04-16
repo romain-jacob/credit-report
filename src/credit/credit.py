@@ -3,9 +3,9 @@ import csv
 import pandas as pd
 import numpy as np
 
-def parse_contrib(data_file): 
+def parse_contrib(data_file):
     """
-    
+
     """
 
     # Load in DataFrame
@@ -47,14 +47,16 @@ def parse_contrib(data_file):
             # Select the contributions on one author
             contrib_single = contrib[i:i+1].dropna(axis=1)
 
-            # Get name, OrcID, and roles 
+            # Get name, OrcID, and roles
             name = contrib_single['Contributor'].values[0]
+
             if 'ORCID' in contrib_single:
                 orcid = contrib_single['ORCID'].values[0]
-            else: 
+                roles = contrib_single.columns[2:].values
+            else:
                 orcid = ''
                 print('%s: no ORCID...' %name)
-            roles = contrib_single.columns[2:].values
+                roles = contrib_single.columns[1:].values
             if len(roles) == 0:
                 print('%s: no contributions...' %name)
 
@@ -72,7 +74,11 @@ def parse_contrib(data_file):
                 if cnt == 0:
                     header = name
                 elif cnt == 1:
-                    header = '\href{https://orcid.org/%s}{%s}' % (orcid, orcid)
+                    if orcid is not '':
+                        # header = '\href{https://orcid.org/%s}{%s}' % (orcid, orcid)
+                        header = '\href{https://orcid.org/%s}{\includegraphics[width=0.8em]{../files/orcid.pdf}}' % orcid
+                    else:
+                        header = ''
                 else:
                     header = ''
 
@@ -96,18 +102,18 @@ def parse_contrib(data_file):
                 result_writer.writerow([line])
 
                 # Move to next role
-                cnt += 1 
+                cnt += 1
 
         # Close the table
         result_writer.writerow(['\\end{longtable}'])
     print('parse_contrib : Done.\n')
-    
-    return 
 
-def parse_meta(meta): 
+    return
+
+def parse_meta(meta):
     """
     """
-    
+
     # Output table to include in tex file
     out_file = '../files/meta.txt'
     with open(out_file, 'w', newline='') as csvfile:
@@ -134,28 +140,27 @@ def parse_meta(meta):
             if '//' in meta["url"]:
                 root, address = meta["url"].split('//')
                 url = '\href{https://%s}{%s}' % (address,address)
-            else: 
+            else:
                 url = meta["url"]
-            
+
             result_writer.writerow(['\\textbf{URL} &',
-                                   url])
-                
+                                   url, '\\\\[0.5\minorskip]'])
+
         # DOI
         if 'doi' in meta:
             doi = '\href{https://doi.dx/%s}{%s}' % (meta["doi"], meta["doi"])
-            result_writer.writerow(['\\textbf{URL} &',
-                                    url])
+            result_writer.writerow(['\\textbf{DOI} &',
+                                    doi, '\\\\[0.5\minorskip]'])
 
         # Close the table
         result_writer.writerow(['\\end{tabularx}'])
-        
-    print('parse_meta : Done.\n')    
-    return 
+
+    print('parse_meta : Done.\n')
+    return
 
 def compile_pdf():
     os.system('pdflatex -synctex=1 -interaction=nonstopmode ../src/credit/CRediT.tex');
     os.system('mv CRediT.pdf ../files/CRediT.pdf');
     os.system('rm -f CRediT.*');
-    print('compile_pdf : Done. \n')    
+    print('compile_pdf : Done. \n')
     return
-    
